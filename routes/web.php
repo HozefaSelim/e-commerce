@@ -37,6 +37,7 @@ Route::middleware("admin")->prefix("/dashboard")->group(function () {
         return view('dashboard');
     })->name("dashboard");
     Route::get('/users', [adminController::class, 'showUsers'])->name('admin.users');
+    Route::get('/prodcuts', [adminController::class, 'showProducts'])->name('admin.products');
     Route::delete('/users/{id}', [adminController::class, 'deleteUser'])->name('admin.deleteUser');
     Route::put('/users/{id}', [adminController::class, 'editUser'])->name('admin.editUser');
 

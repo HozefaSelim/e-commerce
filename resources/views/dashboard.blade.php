@@ -5,6 +5,8 @@
       
         <a  class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight" 
         href="{{ route('admin.users') }}">Users</a>
+        <a  class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight mx-5" 
+        href="{{ route('admin.products') }}">Prodcutrs</a>
     </x-slot>
 
     <div class="py-12">
