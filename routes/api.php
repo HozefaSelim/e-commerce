@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\TagController;
+use App\Http\Controllers\Api\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +39,17 @@ use App\Http\Controllers\Api\TagController;
 // Route::put('categories/{id}',[CategoryController::class, 'update']);
 
 
-Route::apiResource("/categories",CategoryController::class);
-Route::apiResource("/tags",TagController::class);
-Route::get("/filterTag",[TagController::class,'filter']);
+
+
+Route::middleware('auth:api')->group(function (){
+    Route::apiResource("/categories",CategoryController::class);
+    Route::apiResource("/tags",TagController::class);
+    Route::get("/filterTag",[TagController::class,'filter']);
+    Route::post('/logout',[AuthController::class, 'logout']);
+    
+});
+
+
+
+Route::post('/login',[AuthController::class, 'login']);
+Route::post('/register',[AuthController::class, 'register']);

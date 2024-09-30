@@ -18,8 +18,8 @@ trait ReturnTrait{
             "message" => $msg,
           ], $code);
     }
-    public function returnData($key,$value,$msg="",$code){
-        response()->json([
+    public function returnData($key,$value,$msg="",$code=200){
+       return response()->json([
             "status" => true,
             "message" => $msg,
             $key => $value
