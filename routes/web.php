@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\adminController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +19,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('home');
 });
+
+//Route::view('/product' , "product_details");
+//Route::view('/products' , "products");
+Route::view('/checkout' , "checkout");
+
+
+Route::resource('/products',ProductController::class);
 
 
 Route::middleware('auth')->group(function () {

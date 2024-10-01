@@ -26,8 +26,8 @@ class ProductController extends Controller
 
 
 
-        $products = Product::with('tags')->paginate(10);
-        // //  $products = Product::all();
+       $products = Product::with('category')->paginate(10);
+        //$products = Product::all();
         // $products = Product::where("price", ">", 100)->get();
         // $products = Product::whereNot("price", "=", 100)->get();
         // $products = Product::where("price", "=", 100)->orwhere('category_id', '=', 1)->get();
@@ -39,7 +39,7 @@ class ProductController extends Controller
 
 
 
-        return view('products.index', compact('products'));
+        return view('products', compact('products'));
     }
 
     /**
@@ -94,7 +94,7 @@ class ProductController extends Controller
     public function show(string $id)
     {
         $product = Product::find($id);
-        return view("products.show", compact('product'));
+        return view("product_details", compact('product'));
     }
 
     /**
