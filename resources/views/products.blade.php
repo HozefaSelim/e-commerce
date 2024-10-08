@@ -10,65 +10,26 @@
             <!-- row -->
             <div class="row">
                 <!-- ASIDE -->
+                <form method="GET" action="{{ route('products.index') }}">
                 <div id="aside" class="col-md-3">
                     <!-- aside Widget -->
                     <div class="aside">
                         <h3 class="aside-title">Categories</h3>
                         <div class="checkbox-filter">
-
+                            @foreach ($categories as $category )
                             <div class="input-checkbox">
-                                <input type="checkbox" id="category-1">
-                                <label for="category-1">
+                                <input type="checkbox" id="{{ $category->id }}" name="categories[]"
+                                value="{{ $category->id }}" {{ in_array($category->id, request('categories', [])) ? 'checked' : '' }}>
+                                <label for="{{ $category->id }}">
                                     <span></span>
-                                    Laptops
-                                    <small>(120)</small>
+                                    {{ $category->name }}
+                                    <small>{{ $category->products_count }}</small>
                                 </label>
                             </div>
+                            @endforeach
+                         
 
-                            <div class="input-checkbox">
-                                <input type="checkbox" id="category-2">
-                                <label for="category-2">
-                                    <span></span>
-                                    Smartphones
-                                    <small>(740)</small>
-                                </label>
-                            </div>
-
-                            <div class="input-checkbox">
-                                <input type="checkbox" id="category-3">
-                                <label for="category-3">
-                                    <span></span>
-                                    Cameras
-                                    <small>(1450)</small>
-                                </label>
-                            </div>
-
-                            <div class="input-checkbox">
-                                <input type="checkbox" id="category-4">
-                                <label for="category-4">
-                                    <span></span>
-                                    Accessories
-                                    <small>(578)</small>
-                                </label>
-                            </div>
-
-                            <div class="input-checkbox">
-                                <input type="checkbox" id="category-5">
-                                <label for="category-5">
-                                    <span></span>
-                                    Laptops
-                                    <small>(120)</small>
-                                </label>
-                            </div>
-
-                            <div class="input-checkbox">
-                                <input type="checkbox" id="category-6">
-                                <label for="category-6">
-                                    <span></span>
-                                    Smartphones
-                                    <small>(740)</small>
-                                </label>
-                            </div>
+                           
                         </div>
                     </div>
                     <!-- /aside Widget -->
@@ -79,18 +40,19 @@
                         <div class="price-filter">
                             <div id="price-slider"></div>
                             <div class="input-number price-min">
-                                <input id="price-min" type="number">
+                                <input id="price-min" type="number" name="price_min" value="{{ request('price_min') }}">
                                 <span class="qty-up">+</span>
                                 <span class="qty-down">-</span>
                             </div>
                             <span>-</span>
                             <div class="input-number price-max">
-                                <input id="price-max" type="number">
+                                <input id="price-max" type="number" name="price_max" value="{{ request('price_max') }}">
                                 <span class="qty-up">+</span>
                                 <span class="qty-down">-</span>
                             </div>
                         </div>
                     </div>
+                    
                     <!-- /aside Widget -->
 
                     <!-- aside Widget -->
@@ -150,43 +112,10 @@
                     <!-- /aside Widget -->
 
                     <!-- aside Widget -->
-                    <div class="aside">
-                        <h3 class="aside-title">Top selling</h3>
-                        <div class="product-widget">
-                            <div class="product-img">
-                                <img src="{{ asset('front/img') }}/product01.png" alt="">
-                            </div>
-                            <div class="product-body">
-                                <p class="product-category">Category</p>
-                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-                            </div>
-                        </div>
-
-                        <div class="product-widget">
-                            <div class="product-img">
-                                <img src="{{ asset('front/img') }}/product02.png" alt="">
-                            </div>
-                            <div class="product-body">
-                                <p class="product-category">Category</p>
-                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-                            </div>
-                        </div>
-
-                        <div class="product-widget">
-                            <div class="product-img">
-                                <img src="{{ asset('front/img') }}/product03.png" alt="">
-                            </div>
-                            <div class="product-body">
-                                <p class="product-category">Category</p>
-                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-                            </div>
-                        </div>
-                    </div>
+                    <input class="btn btn-primary" type="submit" value="Apply"/>
                     <!-- /aside Widget -->
                 </div>
+            </form>
                 <!-- /ASIDE -->
 
                 <!-- STORE -->
@@ -197,7 +126,7 @@
                             <label>
                                 Sort By:
                                 <select class="input-select">
-                                    <option value="0">Popular</option>
+                                    <option value="0">Low</option>
                                     <option value="1">Position</option>
                                 </select>
                             </label>

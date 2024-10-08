@@ -21,6 +21,9 @@ class Product extends Model
         return $this->belongsToMany(Tag::class,'product_tag');
     }
 
+    public function brnad(){
+        return $this->belongsTo(Brand::class);
+    }
 
 }
 

@@ -17,29 +17,32 @@ class ProductController extends Controller
     }
     
 
-
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+    //$products = Product::with('category')->paginate(10);
+        $query = Product::query();
 
+        if ($request->has("categories") && is_array($request->input('categories'))){
+            $query->whereIn('category_id',$request->categories);
+        }
 
+        if($request->has('price_min') && $request->has('price_max') ){
+            $query->whereBetween('price',[$request->price_min,$request->price_max]);
+        }
 
-       $products = Product::with('category')->paginate(10);
-        //$products = Product::all();
-        // $products = Product::where("price", ">", 100)->get();
-        // $products = Product::whereNot("price", "=", 100)->get();
-        // $products = Product::where("price", "=", 100)->orwhere('category_id', '=', 1)->get();
-        // $maxprice = Product::max('price');
-        // $totalProducts = Product::count();
-        // $products = Product::where("price", ">", 100)->count();
-        // // $products = Product::orderBy('price', 'asc')->get();
-        // $products = Product::paginate(10);
+        
+        if ($request->has("category") && $request->input('category') !== 'all'){
+            $query->where('category_id',$request->input('category'));
+        }
 
-
-
-        return view('products', compact('products'));
+      //  $categories = Category::all();
+        $categories = Category::withCount('products')->get();
+        $products = $query->get();
+        
+        return view('products', compact('products' , 'categories'));
     }
 
     /**
@@ -157,5 +160,25 @@ class ProductController extends Controller
 
         $product->delete();
         return redirect()->route('products.index');
+    }
+
+    public function search(Request $request)
+    {
+        
+        // make query on product
+        $query = Product::query();
+
+        // control if you filter with category
+        if ($request->has("category") && $request->input('category') !== '0'){
+            $query->where('category_id',$request->input('category'));
+        }
+
+         $products = $query->get();
+    // $categories = Category::all();
+        //$products = Product::all();
+       $categories = Category::withCount('products')->get();
+       
+        
+        return view('products', compact('products' , 'categories'));
     }
 }

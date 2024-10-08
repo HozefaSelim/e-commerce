@@ -26,6 +26,7 @@ Route::view('/checkout' , "checkout");
 
 
 Route::resource('/products',ProductController::class);
+Route::get('/search',[ProductController::class,'search'])->name('products.search');
 
 
 Route::middleware('auth')->group(function () {
