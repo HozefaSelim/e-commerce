@@ -7,7 +7,16 @@
                     <li><a href="#"><i class="fa fa-phone"></i> +021-95-51-84</a></li>
                     <li><a href="#"><i class="fa fa-envelope-o"></i> email@email.com</a></li>
                     <li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li>
+                    @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                        <li>
+                            <a href="{{ LaravelLocalization::getLocalizedURL($localeCode) }}">
+                                {{ $properties['native'] }}
+                            </a>
+                        </li>
+                    @endforeach
                 </ul>
+               
+                
                 <ul class="header-links pull-right">
                     @auth
                     <li >{{ auth()->user()->name }}</li>
@@ -29,8 +38,8 @@
                         </form>
                     </li>
                   @else
-                    <li><a href="{{ route('login') }}"><i class="fa fa-dollar"></i> login</a></li>
-                    <li><a href="{{ route('register') }}"><i class="fa fa-user-o"></i> Register</a></li>
+                    <li><a href="{{ route('login') }}"><i class="fa fa-dollar"></i> {{ __('messages.login') }}</a></li>
+                    <li><a href="{{ route('register') }}"><i class="fa fa-user-o"></i> {{ __('messages.register') }}</a></li>
                     @endauth
                 </ul>
             </div>
@@ -69,8 +78,6 @@
                                 </option>
                                 @endforeach
                                 </select>
-
-
 
 
 

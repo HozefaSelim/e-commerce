@@ -11,10 +11,10 @@ class ProductController extends Controller
 {
 
 
-    public function __construct(){
-        $this->middleware('auth',['except' => ["index" , "show"]]);
-        $this->middleware('admin',['only' => ["create" , "edit", "store" , "update" , "destroy"]]);
-    }
+    // public function __construct(){
+    //     $this->middleware('auth',['except' => ["index" , "show"]]);
+    //     $this->middleware('admin',['only' => ["create" , "edit", "store" , "update" , "destroy"]]);
+    // }
     
 
     /**
@@ -168,11 +168,17 @@ class ProductController extends Controller
         // make query on product
         $query = Product::query();
 
+        // search
+
+        if($request->has("query")){
+            $query->where('name','LIKE','%'. $request->input('query'). '%');
+        }
         // control if you filter with category
         if ($request->has("category") && $request->input('category') !== '0'){
             $query->where('category_id',$request->input('category'));
         }
 
+        
          $products = $query->get();
     // $categories = Category::all();
         //$products = Product::all();

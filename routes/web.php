@@ -3,8 +3,9 @@
 use App\Http\Controllers\admin\adminController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\wishlistController;
 use Illuminate\Support\Facades\Route;
-
+use \Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,24 +17,66 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
+
 
 //Route::view('/product' , "product_details");
 //Route::view('/products' , "products");
-Route::view('/checkout' , "checkout");
 
 
-Route::resource('/products',ProductController::class);
-Route::get('/search',[ProductController::class,'search'])->name('products.search');
 
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+
+
+
+Route::group(
+    [
+        'prefix' => LaravelLocalization::setLocale(),
+        'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]
+    ], function(){ 
+        
+        Route::get('/', function () {
+            return view('home');
+        });
+        
+        Route::view('/checkout' , "checkout");
+
+
+        Route::resource('/products',ProductController::class);
+        Route::get('/search',[ProductController::class,'search'])->name('products.search');
+
+
+        Route::middleware('auth')->group(function () {
+            Route::get('/wishlist',[wishlistController::class,'add'])->name('wishlist.add');
+
+            Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+            Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+            Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+        });
+        
+
+
+
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 require __DIR__.'/auth.php';
 
