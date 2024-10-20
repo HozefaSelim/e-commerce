@@ -9,148 +9,125 @@
         <div class="container">
             <!-- row -->
             <div class="row">
+                
                 <!-- ASIDE -->
-                <form method="GET" action="{{ route('products.index') }}">
                 <div id="aside" class="col-md-3">
-                    <!-- aside Widget -->
-                    <div class="aside">
-                        <h3 class="aside-title">Categories</h3>
-                        <div class="checkbox-filter">
-                            @foreach ($categories as $category )
-                            <div class="input-checkbox">
-                                <input type="checkbox" id="{{ $category->id }}" name="categories[]"
-                                value="{{ $category->id }}" {{ in_array($category->id, request('categories', [])) ? 'checked' : '' }}>
-                                <label for="{{ $category->id }}">
-                                    <span></span>
-                                    {{ $category->name }}
-                                    <small>{{ $category->products_count }}</small>
-                                </label>
+                    <form method="GET" action="{{ route('products.index') }}">
+                        <!-- aside Widget -->
+                        <div class="aside">
+                            <h3 class="aside-title">Categories</h3>
+                            @foreach ($categories as $category)
+                            <div class="checkbox-filter">
+                                <div class="input-checkbox">
+                                    <input type="checkbox" id="category-{{ $category->id }}" name="categories[]" value="{{ $category->id }}" {{ in_array($category->id, request('categories', [])) ? 'checked' : '' }}>
+                                    <label for="category-{{ $category->id }}">
+                                        <span></span>
+                                        {{ $category->name }}
+                                        <small>{{ $category->products_count }} </small>
+                                    </label>
+                                </div>
                             </div>
                             @endforeach
-                         
-
-                           
                         </div>
-                    </div>
-                    <!-- /aside Widget -->
+                        <!-- /aside Widget -->
 
-                    <!-- aside Widget -->
-                    <div class="aside">
-                        <h3 class="aside-title">Price</h3>
-                        <div class="price-filter">
-                            <div id="price-slider"></div>
-                            <div class="input-number price-min">
-                                <input id="price-min" type="number" name="price_min" value="{{ request('price_min') }}">
-                                <span class="qty-up">+</span>
-                                <span class="qty-down">-</span>
-                            </div>
-                            <span>-</span>
-                            <div class="input-number price-max">
-                                <input id="price-max" type="number" name="price_max" value="{{ request('price_max') }}">
-                                <span class="qty-up">+</span>
-                                <span class="qty-down">-</span>
+                        <!-- aside Widget -->
+                        <div class="aside">
+                            <h3 class="aside-title">Price</h3>
+                            <div class="price-filter">
+                                <div id="price-slider"></div>
+                                <div class="input-number price-min">
+                                    <input id="price-min" type="number" name="price_min" value="{{ request('price_min', 0) }}">
+                                    <span class="qty-up">+</span>
+                                    <span class="qty-down">-</span>
+                                </div>
+                                <span>-</span>
+                                <div class="input-number price-max">
+                                    <input id="price-max" type="number" name="price_max" value="{{ request('price_max', 1000) }}">
+                                    <span class="qty-up">+</span>
+                                    <span class="qty-down">-</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    
-                    <!-- /aside Widget -->
+                        
+                        <!-- /aside Widget -->
 
-                    <!-- aside Widget -->
-                    <div class="aside">
-                        <h3 class="aside-title">Brand</h3>
-                        <div class="checkbox-filter">
-                            <div class="input-checkbox">
-                                <input type="checkbox" id="brand-1">
-                                <label for="brand-1">
-                                    <span></span>
-                                    SAMSUNG
-                                    <small>(578)</small>
-                                </label>
-                            </div>
-                            <div class="input-checkbox">
-                                <input type="checkbox" id="brand-2">
-                                <label for="brand-2">
-                                    <span></span>
-                                    LG
-                                    <small>(125)</small>
-                                </label>
-                            </div>
-                            <div class="input-checkbox">
-                                <input type="checkbox" id="brand-3">
-                                <label for="brand-3">
-                                    <span></span>
-                                    SONY
-                                    <small>(755)</small>
-                                </label>
-                            </div>
-                            <div class="input-checkbox">
-                                <input type="checkbox" id="brand-4">
-                                <label for="brand-4">
-                                    <span></span>
-                                    SAMSUNG
-                                    <small>(578)</small>
-                                </label>
-                            </div>
-                            <div class="input-checkbox">
-                                <input type="checkbox" id="brand-5">
-                                <label for="brand-5">
-                                    <span></span>
-                                    LG
-                                    <small>(125)</small>
-                                </label>
-                            </div>
-                            <div class="input-checkbox">
-                                <input type="checkbox" id="brand-6">
-                                <label for="brand-6">
-                                    <span></span>
-                                    SONY
-                                    <small>(755)</small>
-                                </label>
+                        <!-- aside Widget -->
+                        <div class="aside">
+                            <h3 class="aside-title">Brand</h3>
+                            <div class="checkbox-filter">
+                                <div class="input-checkbox">
+                                    <input type="checkbox" id="brand-1" name="brands[]" value="SAMSUNG">
+                                    <label for="brand-1">
+                                        <span></span>
+                                        SAMSUNG
+                                        <small>(578)</small>
+                                    </label>
+                                </div>
+                                <div class="input-checkbox">
+                                    <input type="checkbox" id="brand-2" name="brands[]" value="LG">
+                                    <label for="brand-2">
+                                        <span></span>
+                                        LG
+                                        <small>(125)</small>
+                                    </label>
+                                </div>
+                                <div class="input-checkbox">
+                                    <input type="checkbox" id="brand-3" name="brands[]" value="SONY">
+                                    <label for="brand-3">
+                                        <span></span>
+                                        SONY
+                                        <small>(755)</small>
+                                    </label>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- /aside Widget -->
+                        <!-- /aside Widget -->
 
-                    <!-- aside Widget -->
-                    <input class="btn btn-primary" type="submit" value="Apply"/>
-                    <!-- /aside Widget -->
+                        <!-- زر "Apply" -->
+                        <button type="submit" class="btn btn-primary">Apply Filters</button>
+                    </form>
                 </div>
-            </form>
                 <!-- /ASIDE -->
 
                 <!-- STORE -->
                 <div id="store" class="col-md-9">
                     <!-- store top filter -->
                     <div class="store-filter clearfix">
-                        <div class="store-sort">
+                     <form method="GET" action="{{ route('products.index') }}">
+
+                        <div class="store-sort" style="padding: 15px;">
                             <label>
                                 Sort By:
-                                <select class="input-select">
-                                    <option value="0">Low</option>
-                                    <option value="1">Position</option>
+                                <select name="order" onchange="this.form.submit()" style="padding: 10px;">
+                                    <option value="asc" {{ request('order') == 'asc' ? 'selected' : '' }}>low to high</option>
+                                    <option value="desc" {{ request('order') == 'desc' ? 'selected' : '' }}>high to low</option>
                                 </select>
                             </label>
 
                             <label>
                                 Show:
-                                <select class="input-select">
-                                    <option value="0">20</option>
-                                    <option value="1">50</option>
+                                <select name="paginate" onchange="this.form.submit()" style="padding: 10px;">
+                                    <option value="2" {{ request('paginate') == 2 ? 'selected' : '' }}>2</option>
+                                    <option value="5" {{ request('paginate') == 5 ? 'selected' : '' }}>5</option>
+                                    <option value="10" {{ request('paginate') == 10 ? 'selected' : '' }}>10</option>
                                 </select>
                             </label>
                         </div>
+
+
                         <ul class="store-grid">
                             <li class="active"><i class="fa fa-th"></i></li>
                             <li><a href="#"><i class="fa fa-th-list"></i></a></li>
                         </ul>
                     </div>
+                </form>
                     <!-- /store top filter -->
 
                     <!-- store products -->
                     <div class="row">
                         <!-- product -->
-                        @foreach ( $products as $product )
-                     
+                        @foreach ($products as $product)
                         <div class="col-md-4 col-xs-6">
                             <div class="product">
                                 <div class="product-img">
@@ -162,11 +139,7 @@
                                 </div>
                                 <div class="product-body">
                                     <p class="product-category">{{ $product->category->name }}</p>
-                                    <h3 class="product-name">
-                                        <a href="#">   {{ $product->{'name_' . App::getLocale()} }}</a>
-                                        {{-- <a href="#">{{ App::getLocale() ===  'en' ? $product->name_en :  $product->name_ar }}</a> --}}
-                                    </h3>
-                                    
+                                    <h3 class="product-name"><a href="#">{{ $product->name }}</a></h3>
                                     <h4 class="product-price"> {{ $product->price }}<del class="product-old-price">{{ $product->price  + 30}}</del></h4>
                                     <div class="product-rating">
                                         <i class="fa fa-star"></i>
@@ -176,43 +149,35 @@
                                         <i class="fa fa-star"></i>
                                     </div>
                                     <div class="product-btns">
-
-                                        {{-- <form action="POST" action="{{ route('wishlist.add' ,  $product->id) }}">
+                                        <form action="{{ route('wishlist.add', $product->id) }}" method="POST">
                                             @csrf
-                                        <button class="add-to-wishlist" type="submit"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-                                    </form> --}}
-
-                                    <a  href="{{ route('wishlist.add' ,  $product->id) }}"class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">add to wishlist</span></a>
-
-                                        <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+                                            <button type="submit" class="add-to-wishlist">
+                                                <i class="fa fa-heart"></i>
+                                            </button>
+                                        </form>
                                         <a  href="{{ route('products.show', $product->id) }}" class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">Show Details</span></a>
                                     </div>
                                 </div>
                                 <div class="add-to-cart">
-                                    <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                    <form action="{{ route('cart.add', $product->id) }}" method="POST">
+                                        @csrf
+                                        <!-- Add hidden input for quantity -->
+                                        <input type="hidden" name="quantity" value="1">
+                                        
+                                        <button type="submit" class="add-to-cart-btn">
+                                            <i class="fa fa-shopping-cart"></i> Add to Cart
+                                        </button>
+                                    </form>
                                 </div>
+                                
+                                
                             </div>
                         </div>
                         @endforeach
                         <!-- /product -->
 
-                        {{-- <div class="clearfix visible-sm visible-xs"></div> --}}
-
                     </div>
                     <!-- /store products -->
-
-                    <!-- store bottom filter -->
-                    {{-- <div class="store-filter clearfix">
-                        <span class="store-qty">Showing 20-100 products</span>
-                        <ul class="store-pagination">
-                            <li class="active">1</li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
-                        </ul>
-                    </div> --}}
-                    <!-- /store bottom filter -->
                 </div>
                 <!-- /STORE -->
             </div>
@@ -221,41 +186,5 @@
         <!-- /container -->
     </div>
     <!-- /SECTION -->
-
-    <!-- NEWSLETTER -->
-    <div id="newsletter" class="section">
-        <!-- container -->
-        <div class="container">
-            <!-- row -->
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="newsletter">
-                        <p>Sign Up for the <strong>NEWSLETTER</strong></p>
-                        <form>
-                            <input class="input" type="email" placeholder="Enter Your Email">
-                            <button class="newsletter-btn"><i class="fa fa-envelope"></i> Subscribe</button>
-                        </form>
-                        <ul class="newsletter-follow">
-                            <li>
-                                <a href="#"><i class="fa fa-facebook"></i></a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa fa-twitter"></i></a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa fa-instagram"></i></a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa fa-pinterest"></i></a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- /row -->
-        </div>
-        <!-- /container -->
-    </div>
-    <!-- /NEWSLETTER -->
 
 @endsection

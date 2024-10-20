@@ -14,19 +14,23 @@ class Product extends Model
     public function category(){
         return $this->belongsTo(Category::class);
     }
-
+    public function carts()
+    {
+        return $this->belongsToMany(Cart::class, 'cart_product')
+                    ->withPivot('quantity');
+    }
 
 
     public function tags(){
         return $this->belongsToMany(Tag::class,'product_tag');
     }
 
-    public function brnad(){
-        return $this->belongsTo(Brand::class);
+    public function wishlistedBy()
+    {
+        return $this->belongsToMany(User::class, 'wishlists');
     }
-
-    public function wishlistByUser(){
-        return $this->belongsToMany(User::class,'wishlists');
-    }
+    public function orders(){
+        return $this->belongsToMany(Order::class,'product_order')->withPivot('quantity','price');
+    } 
 }
 

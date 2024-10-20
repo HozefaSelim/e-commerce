@@ -9,17 +9,18 @@ class Wishlist extends Model
 {
     use HasFactory;
 
-    protected  $table = "wishlists";
-    protected  $fillable = ['user_id' ,'product_id'];
+    protected $table = 'wishlists'; // Define the table name if it's different from Laravel's convention
 
+    protected $fillable = ['user_id', 'product_id']; // Mass assignable attributes
 
-
-    public function user(){
+    // Optional relationships if needed
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function product(){
+    public function product()
+    {
         return $this->belongsTo(Product::class);
     }
-
 }

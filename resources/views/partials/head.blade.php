@@ -22,6 +22,7 @@
     <!-- Font Awesome Icon -->
     <link rel="stylesheet" href="{{ asset('front/css/font-awesome.min.css') }}">
 
+
     <!-- Custom stlylesheet -->
     <link type="text/css" rel="stylesheet" href="{{ asset('front/css/style.css') }}"/>
 

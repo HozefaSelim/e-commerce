@@ -38,6 +38,15 @@ class User extends Authenticatable implements JWTSubject
         return $this->role === "admin";
     }
 
+    public function wishlist()
+        {
+            return $this->belongsToMany(Product::class, 'wishlists');
+        }
+
+        public function cart()
+        {
+            return $this->hasOne(Cart::class);
+        }
     /**
      * The attributes that should be cast.
      *
@@ -55,9 +64,7 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    public function wishlist(){
-        return $this->belongsToMany(Product::class,'wishlists');
+    public function orders(){
+        return $this->hasMany(Order::class);
     }
 }
-
-

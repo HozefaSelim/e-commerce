@@ -94,19 +94,28 @@
 							</div>
 
 							<div class="add-to-cart">
+								<form action="{{ route('cart.add', $product->id) }}" method="POST">
+									@csrf
 								<div class="qty-label">
 									Qty
 									<div class="input-number">
-										<input type="number">
+										<input type="number" name="quantity" value="1" min="1">
 										<span class="qty-up">+</span>
 										<span class="qty-down">-</span>
 									</div>
 								</div>
-								<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-							</div>
+								<button class="add-to-cart-btn" type="submit"><i class="fa fa-shopping-cart"></i> add to cart</button>
+							</form>
+						</div>
 
 							<ul class="product-btns">
-								<li><a href="#"><i class="fa fa-heart-o"></i> add to wishlist</a></li>
+								<form action="{{ route('wishlist.add', $product->id) }}" method="POST">
+									@csrf
+									<button type="submit" class="add-to-wishlist">
+										<i class="fa fa-heart"></i> Add to Wishlist
+									</button>
+								</form>
+								
 								<li><a href="#"><i class="fa fa-exchange"></i> add to compare</a></li>
 							</ul>
 

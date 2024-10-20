@@ -10,7 +10,7 @@
 
         @include('partials.nav')
 
-
+        @include('partials.alerts')
 
     @yield("main-content")
 	
@@ -23,6 +23,7 @@
 
     @include('partials.scripts')
 
+    @yield("scripts")
 
 	</body>
 </html>
