@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Coupon;
 use App\Models\Cart;
-
+use App\Models\ProductVariation;
+use App\Models\VariationOption;
 use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
@@ -16,6 +17,27 @@ class CartController extends Controller
   public function index()
 {
     $cartItems = Auth::user()->cart->products()->get(); 
+ 
+    foreach($cartItems  as $item){
+        $selectedOptions = json_decode($item->pivot->options_ids , true);
+
+        $selectedVariations = [];
+        if($selectedOptions){
+            foreach( $selectedOptions  as $optionId){
+                $option = VariationOption::with('variation')->find($optionId);
+                if($option){
+                    $selectedVariations[] = [
+                        'variaion_name' => $option->variation->name,
+                        'option_name' => $option->name,
+                        'option_id' => $option->id,
+                    ];
+                }
+            }
+        }
+        $item->setAttribute('selected_variations' ,  $selectedVariations );
+       
+    }
+   // dd($cartItems);
 
     return view('cart.index', compact('cartItems'));
     }
@@ -25,16 +47,35 @@ class CartController extends Controller
   {
       $cart = Auth::user()->cart ?: Auth::user()->cart()->create(); // Get or create the cart
       
-      // Check if the product is already in the cart
-      $cartProduct = $cart->products()->where('product_id', $product->id)->first();
+
+    $selectedOptions = $request->input('variation');
+    //dd($selectedOptions);
+
+    $productVariation = ProductVariation::where('product_id',$product->id)->where(function ($query) use ($selectedOptions){
+        foreach($selectedOptions as $optionId){
+            $query->whereJsonContains('options_ids',$optionId);
+        }
+    })->first();
+
+    if(!$productVariation){
+      return redirect()->back()->with('error', 'This variation are not exists');
+    }
+      $cartProduct = $cart->products()
+      ->where('product_id',$product->id)
+      ->wherePivot('product_variation_id' , $productVariation->id)
+      ->wherePivot('options_ids' , json_encode(  $selectedOptions))->first();
 
       if ($cartProduct) {
-          // If product exists, increase the quantityعسث 
-          $cartProduct->pivot->quantity += $request->quantity;
-          $cartProduct->pivot->save();
+          // If product exists, increase the quantity
+          $productVariation->pivot->quantity += $request->quantity;
+          $productVariation->pivot->save();
       } else {
           // Add the product to the cart with the given quantity
-          $cart->products()->attach($product->id, ['quantity' => $request->quantity]);
+          $cart->products()->attach($product->id, [
+            'quantity' => $request->quantity ,
+            'product_variation_id' => $productVariation->id,
+            'options_ids' => json_encode(  $selectedOptions)
+        ]);
       }
 
       return redirect()->route('cart.index')->with('success', 'Product added to cart successfully!');

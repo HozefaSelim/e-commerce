@@ -23,12 +23,26 @@
                       <img src="{{ asset('/front/img/' . ($item->image ?? 'default.png')) }}" class="media-object img-thumbnail" style="width: 96px; height: 96px;" alt="{{ $item->name }}" />
                     </div>
                     <div class="media-body">
-                      <h4 class="media-heading"><a href="#">{{ $item->name }}</a></h4>
+                      <h4 class="media-heading"><a href="#">{{ $item->name_en }}</a></h4>
                       <p class="text-muted">{{ $item->description }}</p>
                     </div>
                   </div>
+                  @if($item->selected_variations)
+                  <ul>
+                      @foreach($item->selected_variations as $variation)
+                          <li>
+                              <strong>{{ $variation['variaion_name'] }}:</strong> {{ $variation['option_name'] }}
+                          </li>
+                      @endforeach
+                  </ul>
+              @else
+                  <p>No variations selected for this item.</p>
+              @endif
+
                 </div>
               
+              
+               
                 <div class="col-lg-2 col-sm-6 col-6">
                   <!-- Quantity Form -->
                   <form action="{{ route('cart.update', $item->id) }}" method="POST" class="d-inline-flex">

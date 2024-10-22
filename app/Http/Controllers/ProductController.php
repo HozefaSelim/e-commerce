@@ -41,6 +41,9 @@ class ProductController extends Controller
       //  $categories = Category::all();
         $categories = Category::withCount('products')->get();
         $products = $query->get();
+
+        $paginate = $request->input('paginate',2);
+        $products = $query->paginate($paginate);
         
         return view('products', compact('products' , 'categories'));
     }
@@ -96,7 +99,9 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        $product = Product::find($id);
+        $product = Product::with(['variations.options.variation'])->find($id);
+
+       
         return view("product_details", compact('product'));
     }
 

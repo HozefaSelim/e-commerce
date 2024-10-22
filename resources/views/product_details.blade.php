@@ -59,7 +59,7 @@
 					<!-- Product details -->
 					<div class="col-md-5">
 						<div class="product-details">
-							<h2 class="product-name">{{ $product->name }}</h2>
+							<h2 class="product-name">{{ $product->name_en }}</h2>
 							<div>
 								<div class="product-rating">
 									<i class="fa fa-star"></i>
@@ -78,24 +78,36 @@
 							$product->description
 							}}</p>
 
+
+						<form action="{{ route('cart.add', $product->id) }}" method="POST">
+								@csrf
 							<div class="product-options">
+								@foreach ($product->variations as $variation )
+									@if ($variation->options->count() > 0)
+										
+								
 								<label>
-									Size
-									<select class="input-select">
-										<option value="0">X</option>
+									{{ $variation->options->first()->variation->name}} :
+									<select class="input-select" 
+								name="variation[{{  $variation->options->first()->variation->name }}]"
+									>
+
+										@foreach ($variation->options as $option)
+										<option value="{{ $option->id  }}">
+												{{ $option->name }}
+												
+										</option>
+										@endforeach
 									</select>
 								</label>
-								<label>
-									Color
-									<select class="input-select">
-										<option value="0">Red</option>
-									</select>
-								</label>
+								@endif
+								@endforeach
 							</div>
 
+						
+
 							<div class="add-to-cart">
-								<form action="{{ route('cart.add', $product->id) }}" method="POST">
-									@csrf
+									
 								<div class="qty-label">
 									Qty
 									<div class="input-number">
