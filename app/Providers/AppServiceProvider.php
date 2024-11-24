@@ -28,8 +28,13 @@ class AppServiceProvider extends ServiceProvider
     {
         View::composer('partials.nav', function ($view) {
             $cartItems = collect();  // Initialize an empty collection
+<<<<<<< HEAD
             $wishlistCount = 0;  
             $orderCount  = 0;
+=======
+            $wishlistCount = 0; 
+            $orderCount = 0; 
+>>>>>>> df2c630 (update socialite)
             $categories = Category::all();
         
             if (Auth::check()) {

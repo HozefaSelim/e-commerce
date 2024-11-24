@@ -79,6 +79,7 @@
 							}}</p>
 
 
+<<<<<<< HEAD
 						<form action="{{ route('cart.add', $product->id) }}" method="POST">
 								@csrf
 							<div class="product-options">
@@ -103,11 +104,36 @@
 								@endif
 								@endforeach
 							</div>
+=======
+					<form action="{{ route('cart.add', $product->id) }}" method="POST">
+						@csrf
+
+						<div class="product-options">
+							@foreach ($product->variations as $variation)
+								@if ($variation->options->count() > 0) <!-- عرض فقط التنوعات التي لديها خيارات -->
+									<label>{{ $variation->options->first()->variation->name }}:</label>
+									<select name="variation[{{ $variation->options->first()->variation->name }}]">
+										@foreach ($variation->options as $option)
+											<option value="{{ $option->id }}">{{ $option->name }}</option> <!-- عرض الخيارات المرتبطة -->
+										@endforeach
+									</select>
+								@endif
+							@endforeach
+						</div>
+						
+					
+						
+						
+>>>>>>> df2c630 (update socialite)
 
 						
 
 							<div class="add-to-cart">
+<<<<<<< HEAD
 									
+=======
+							
+>>>>>>> df2c630 (update socialite)
 								<div class="qty-label">
 									Qty
 									<div class="input-number">
@@ -116,8 +142,12 @@
 										<span class="qty-down">-</span>
 									</div>
 								</div>
+
 								<button class="add-to-cart-btn" type="submit"><i class="fa fa-shopping-cart"></i> add to cart</button>
+							
 							</form>
+
+							
 						</div>
 
 							<ul class="product-btns">
@@ -269,92 +299,59 @@
 										</div>
 										<!-- /Rating -->
 
-										<!-- Reviews -->
-										<div class="col-md-6">
-											<div id="reviews">
-												<ul class="reviews">
-													<li>
-														<div class="review-heading">
-															<h5 class="name">John</h5>
-															<p class="date">27 DEC 2018, 8:0 PM</p>
-															<div class="review-rating">
-																<i class="fa fa-star"></i>
-																<i class="fa fa-star"></i>
-																<i class="fa fa-star"></i>
-																<i class="fa fa-star"></i>
-																<i class="fa fa-star-o empty"></i>
-															</div>
-														</div>
-														<div class="review-body">
-															<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
-														</div>
-													</li>
-													<li>
-														<div class="review-heading">
-															<h5 class="name">John</h5>
-															<p class="date">27 DEC 2018, 8:0 PM</p>
-															<div class="review-rating">
-																<i class="fa fa-star"></i>
-																<i class="fa fa-star"></i>
-																<i class="fa fa-star"></i>
-																<i class="fa fa-star"></i>
-																<i class="fa fa-star-o empty"></i>
-															</div>
-														</div>
-														<div class="review-body">
-															<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
-														</div>
-													</li>
-													<li>
-														<div class="review-heading">
-															<h5 class="name">John</h5>
-															<p class="date">27 DEC 2018, 8:0 PM</p>
-															<div class="review-rating">
-																<i class="fa fa-star"></i>
-																<i class="fa fa-star"></i>
-																<i class="fa fa-star"></i>
-																<i class="fa fa-star"></i>
-																<i class="fa fa-star-o empty"></i>
-															</div>
-														</div>
-														<div class="review-body">
-															<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
-														</div>
-													</li>
-												</ul>
-												<ul class="reviews-pagination">
-													<li class="active">1</li>
-													<li><a href="#">2</a></li>
-													<li><a href="#">3</a></li>
-													<li><a href="#">4</a></li>
-													<li><a href="#"><i class="fa fa-angle-right"></i></a></li>
-												</ul>
+										{{-- <!-- Reviews -->
+							<div class="col-md-6">
+								<div id="reviews">
+									<ul class="reviews">
+										@foreach ($reviews as $review)
+										<li>
+											<div class="review-heading">
+												<h5 class="name">{{ $review->user->name }}</h5>
+												<p class="date">{{ $review->created_at->format('d M Y, h:i A') }}</p>
+												<div class="review-rating">
+													@for ($i = 1; $i <= 5; $i++)
+														<i class="fa fa-star{{ $i <= $review->rating ? '' : '-o' }}"></i>
+													@endfor
+												</div>
 											</div>
-										</div>
-										<!-- /Reviews -->
+											<div class="review-body">
+												<p>{{ $review->comment }}</p>
+											</div>
+										</li>
+										@endforeach
+									</ul>
 
-										<!-- Review Form -->
-										<div class="col-md-3">
-											<div id="review-form">
-												<form class="review-form">
-													<input class="input" type="text" placeholder="Your Name">
-													<input class="input" type="email" placeholder="Your Email">
-													<textarea class="input" placeholder="Your Review"></textarea>
-													<div class="input-rating">
-														<span>Your Rating: </span>
-														<div class="stars">
-															<input id="star5" name="rating" value="5" type="radio"><label for="star5"></label>
-															<input id="star4" name="rating" value="4" type="radio"><label for="star4"></label>
-															<input id="star3" name="rating" value="3" type="radio"><label for="star3"></label>
-															<input id="star2" name="rating" value="2" type="radio"><label for="star2"></label>
-															<input id="star1" name="rating" value="1" type="radio"><label for="star1"></label>
-														</div>
-													</div>
-													<button class="primary-btn">Submit</button>
-												</form>
+									<!-- Pagination -->
+									{{ $reviews->links() }}
+								</div>
+							</div>
+							<!-- /Reviews -->
+
+
+
+									<!-- Review Form -->
+								<div class="col-md-3">
+									<div id="review-form">
+										<form class="review-form" action="{{ route('reviews.store', $product->id) }}" method="POST">
+											@csrf
+											<input class="input" type="text" name="name" value="{{ old('name', Auth::user()->name ?? '') }}" placeholder="Your Name" {{ Auth::check() ? 'readonly' : '' }} required>
+											<input class="input" type="email" name="email" value="{{ old('email', Auth::user()->email ?? '') }}" placeholder="Your Email" {{ Auth::check() ? 'readonly' : '' }} required>
+											<textarea class="input" name="comment" placeholder="Your Review" required>{{ old('comment') }}</textarea>
+											<div class="input-rating">
+												<span>Your Rating: </span>
+												<div class="stars">
+													@for ($i = 5; $i >= 1; $i--)
+													<input id="star{{ $i }}" name="rating" value="{{ $i }}" type="radio" {{ old('rating') == $i ? 'checked' : '' }}>
+													<label for="star{{ $i }}"></label>
+													@endfor
+												</div>
 											</div>
-										</div>
-										<!-- /Review Form -->
+											<button class="primary-btn" type="submit">Submit</button>
+										</form>
+									</div>
+								</div>
+								<!-- /Review Form --> --}}
+
 									</div>
 								</div>
 								<!-- /tab3  -->

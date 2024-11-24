@@ -146,7 +146,7 @@
                             <!-- orders -->
                             <div>
                                 <a href="{{ route('order.index') }}">
-                                    <i class="fa fa-heart-o"></i>
+                                    <i class="fa fa-first-order"></i>
                                     <span>Your orders</span>
                                     <div class="qty">{{ $orderCount }}</div> 
                                 </a>

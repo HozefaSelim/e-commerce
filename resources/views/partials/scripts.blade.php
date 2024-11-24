@@ -3,6 +3,13 @@
     <script src="{{ asset('front/js/bootstrap.min.js') }}"></script>
 
 
+    {{-- <script>
+    var channel = Echo.channel('order{{ auth()->user()->id }}');
+    channel.listen('orderStatuss', function(data) {
+    alert(JSON.stringify(data));
+    });
+    </script> --}}
+
     <script src="{{ asset('front/js/slick.min.js') }}"></script>
     <script src="{{ asset('front/js/nouislider.min.js') }}"></script>
     <script src="{{ asset('front/js/jquery.zoom.min.js') }}"></script>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\SendGreeingMail;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
@@ -44,6 +45,10 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
+        event(new SendGreeingMail($user));
+    //    SendGreeingMail::dispatch($user);
+    
+        
         Auth::login($user);
 
         return redirect(RouteServiceProvider::HOME);

@@ -33,6 +33,7 @@ class Product extends Model
         return $this->belongsToMany(Order::class,'product_order')->withPivot('quantity','price');
     } 
 
+<<<<<<< HEAD
 
     
 
@@ -41,5 +42,16 @@ class Product extends Model
     }
 
     
+=======
+    public function variations()
+    {
+        return $this->hasMany(ProductVariation::class);
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+>>>>>>> df2c630 (update socialite)
 }
 

@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('cart_id')->constrained()->onDelete('cascade');
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
-            $table->integer('quantity')->default(1); // Track the quantity of each product in the cart
+            $table->foreignId('product_variation_id')->constrained('product_variations')->onDelete('cascade'); // Ensure variation linking
+            $table->integer('quantity');
+            $table->json('options_ids'); // Store JSON for variations
             $table->timestamps();
         });
     }

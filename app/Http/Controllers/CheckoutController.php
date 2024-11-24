@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Jobs\OrderTakenJob;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
 use App\Models\Order;
@@ -65,6 +66,9 @@ class CheckoutController extends Controller
                 ]);
             }
             $cart->products()->detach();
+
+            dispatch(new OrderTakenJob($order ));
+            
             return view('cart.success')->with('success',"your payment has been successfult done");
         }
         

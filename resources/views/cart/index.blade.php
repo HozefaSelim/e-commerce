@@ -14,6 +14,7 @@
             <div class="panel-body">
               <h4 class="panel-title mb-4">Your shopping cart</h4>
 
+<<<<<<< HEAD
               <!-- Loop through cart items -->
               @foreach($cartItems as $item)
               <div class="row mb-4">
@@ -82,6 +83,69 @@
               </div>
               @endforeach
               <!-- End Loop -->
+=======
+           <!-- Loop through cart items -->
+@foreach($cartItems as $item)
+<div class="row mb-4">
+    <div class="col-lg-5 ">
+        <div class="media">
+            <div class="media-left">
+                <img src="{{ asset('/front/img/' . ($item->image ?? 'default.png')) }}" class="media-object img-thumbnail" style="width: 96px; height: 96px;" alt="{{ $item->name }}" />
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading"><a href="#">{{ $item->name }}</a></h4>
+                <p class="text-muted">{{ $item->description }}</p>
+
+                <!-- Show selected variations -->
+                @if (!empty($item->selected_variations))
+                    @foreach ($item->selected_variations as $variation)
+                        <p><strong>{{ ucfirst($variation['variation_name']) }}:</strong> {{ $variation['option_name'] }}</p>
+                    @endforeach
+                @endif
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-2 col-sm-6 col-6">
+        <!-- Quantity Form -->
+        <form action="{{ route('cart.update', $item->id) }}" method="POST" class="d-inline-flex">
+            @csrf
+            @method('PATCH')
+
+            <div class="qty-label">
+                Qty
+                <div class="input-number">
+                    <!-- Quantity Input -->
+                    <input type="number" name="quantity" id="quantity-{{ $item->id }}" value="{{ $item->pivot->quantity }}" min="1">
+                </div>
+            </div>
+
+            <!-- Price Information -->
+            <h5 id="total-price-{{ $item->id }}" class="mt-2">${{ number_format($item->price * $item->pivot->quantity, 2) }}</h5>
+
+            <!-- Explicit "Update Cart" Button -->
+            <button type="submit" class="btn btn-primary ml-2">Update Cart</button>
+        </form>
+    </div>
+
+    <div class="col-lg-2 col-sm-6 text-center">
+        <!-- Remove Button -->
+        <form action="{{ route('cart.remove', $item->id) }}" method="POST">
+            @csrf
+            @method('DELETE')
+            <!-- Include hidden inputs for the selected variation -->
+            @foreach ($item->selected_variations as $variation)
+                <input type="hidden" name="variation[{{ $variation['variation_name'] }}]" value="{{ $variation['option_id'] }}">
+            @endforeach
+
+            <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+        </form>
+    </div>
+</div>
+@endforeach
+<!-- End Loop -->
+
+>>>>>>> df2c630 (update socialite)
             </div>
 
           </div>

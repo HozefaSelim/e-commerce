@@ -51,8 +51,13 @@
                             {{ __('Log in') }}
                         </button>
                     </div>
+              
                 </form>
+                <div>
+                    <a href="{{ route('github.rediect') }}">Login with Github</a>
+                </div>
             </div>
+           
         </div>
         <!-- /row -->
     </div>

@@ -6,6 +6,8 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Barryvdh\Debugbar\Facades\Debugbar;
+
 
 class ProductController extends Controller
 {
@@ -16,7 +18,20 @@ class ProductController extends Controller
     //     $this->middleware('admin',['only' => ["create" , "edit", "store" , "update" , "destroy"]]);
     // }
     
-
+    public function show($id)
+    {
+        // جلب المنتج مع المتغيرات والخيارات المرتبطة به
+        $product = Product::with(['variations.options.variation'])->find($id);
+        // $reviews = $product->reviews()->paginate(5); // Change this to paginate reviews
+     
+        if (!$product) {
+            return abort(404);
+        }
+    
+        return view('product_details', compact('product' ));
+    }
+    
+    
     /**
      * Display a listing of the resource.
      */
@@ -42,8 +57,12 @@ class ProductController extends Controller
         $categories = Category::withCount('products')->get();
         $products = $query->get();
 
+<<<<<<< HEAD
         $paginate = $request->input('paginate',2);
         $products = $query->paginate($paginate);
+=======
+      
+>>>>>>> df2c630 (update socialite)
         
         return view('products', compact('products' , 'categories'));
     }
@@ -97,6 +116,7 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
+<<<<<<< HEAD
     public function show(string $id)
     {
         $product = Product::with(['variations.options.variation'])->find($id);
@@ -105,6 +125,9 @@ class ProductController extends Controller
         return view("product_details", compact('product'));
     }
 
+=======
+    
+>>>>>>> df2c630 (update socialite)
     /**
      * Show the form for editing the specified resource.
      */
